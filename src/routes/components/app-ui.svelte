@@ -5,11 +5,12 @@
 	// export let data = [{}, {}];
 
 	const endpoint_test = 'https://jsonplaceholder.typicode.com/posts';
-	const endpoint_req = 'http://localhost:3000/v1/states';
+	const endpoint_req = 'http://localhost:3000/v1/req';
 	$: posts = [{}];
 	$: users = [{}];
 	$: states = [{}];
-    $: state = '';
+    $: cities = [{}];
+	$: state = '';
 
 	const res = {};
 
@@ -47,8 +48,8 @@
 		try {
 			/* get states */
 			res.cities = await axios.get(endpoint_req + '?state=' + state);
-			states = res.cities.data;
-			console.log(states);
+			cities = res.cities.data;
+			console.log(cities);
 		} catch (error) {
 			console.log('THERE IS AN ERROR.');
 			console.error(error);
@@ -64,7 +65,7 @@
 			const data = await res.json();
 			posts = data;
         */
-        test_endpoint();
+		test_endpoint();
 		getStates();
 	});
 </script>
@@ -76,20 +77,15 @@
 		<h3>State List DropDown</h3>
 		<select id="data-option-list" name="">
 			{#each states as s, index (index)}
-                <option id="s{index + 1}" value="" on:click={()=> state=s.state}>{JSON.stringify(s)}</option>
+				<option id="s{index + 1}" on:click={() => getCities(s.state)}>{s.state}</option>
 			{/each}
 		</select>
-        <h3>City List</h3>
-        <select>
-            {#each }
-                <option value="">{}</option>
-            {/each}
-        </select>
-		<div class="card">
-			<!--{#each posts.slice(0, 5) as p}-->
-			<!--<p>{JSON.stringify(p.id)}: {JSON.stringify(p.title)}</p>-->
-			<!--{/each}-->
-		</div>
+		<h3>City List</h3>
+		<select size="5" id="data-option-panel">
+			{#each cities as c, index (index)}
+				<option id="s{index + 1}" value={c.city}>{c.city}</option>
+			{/each}
+		</select>
 	</div>
 
 	<!-- RIGHT PANEL: BUSINESS LIST PER SELECTED CITY -->
@@ -148,6 +144,15 @@
 	#data-option-list {
 		width: 90%;
 		height: 50px;
+		margin-left: 2%;
+		margin-right: 2%;
+		margin-bottom: 5%;
+		font-size: 1rm;
+	}
+
+	#data-option-panel {
+		width: 90%;
+		height: 60%;
 		margin-left: 2%;
 		margin-right: 2%;
 		margin-bottom: 5%;
