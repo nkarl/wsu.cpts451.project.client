@@ -7,8 +7,8 @@
 	const endpoint_req = 'http://localhost:3000/v1/request';
 	$: states = [{}];
 	$: cities = [{}];
-	$: curr_state = 'NC';
-	$: curr_city = 'Huntersville';
+	$: curr_state = 'AZ';
+	$: curr_city = 'Phoenix';
 	$: businesses = [{}];
 
 	const res = {};
@@ -22,10 +22,10 @@
 	async function getStates() {
 		try {
 			/* get states */
-            res.states = await axios.get(endpoint_req);
-            states = res.states.data;
-            //res.states = await fetch(endpoint_req);
-            //states = await res.states.json();
+			res.states = await axios.get(endpoint_req);
+			states = res.states.data;
+			//res.states = await fetch(endpoint_req);
+			//states = await res.states.json();
 			//states = load(fetch, '').then(states => states);
 			console.log(states);
 		} catch (error) {
@@ -36,14 +36,14 @@
 		}
 	}
 
-	async function getCities(state = 'NC') {
+	async function getCities(state = 'AZ') {
 		curr_state = state;
 		try {
 			/* get states */
 			res.cities = await axios.get(endpoint_req + '?state=' + state);
 			cities = res.cities.data;
-            //res.cities = await fetch(endpoint_req + '?state=' + state);
-            //cities = await res.cities.json();
+			//res.cities = await fetch(endpoint_req + '?state=' + state);
+			//cities = await res.cities.json();
 			console.log('curr_state=', curr_state);
 			console.log(cities);
 		} catch (error) {
@@ -54,16 +54,16 @@
 		}
 	}
 
-	async function getBusinesses(city = 'Huntersville') {
+	async function getBusinesses(city = 'Phoenix') {
 		curr_city = city;
 		try {
 			/* get states */
 			res.businesses = await axios.get(
 				endpoint_req + '?state=' + curr_state + '&' + 'city=' + city
 			);
-            businesses = res.businesses.data;
-            //res.businesses = await fetch(endpoint_req + '?state=' + curr_state + '&' + 'city=' + city);
-            //businesses = await res.businesses.json();
+			businesses = res.businesses.data;
+			//res.businesses = await fetch(endpoint_req + '?state=' + curr_state + '&' + 'city=' + city);
+			//businesses = await res.businesses.json();
 			console.log(businesses);
 		} catch (error) {
 			console.log('THERE IS AN ERROR.');
@@ -80,9 +80,11 @@
 			const data = await res.json();
 			posts = data;
         */
-		curr_state = 'NC';
-		curr_city = 'Huntersville';
+		curr_state = 'AZ';
+		curr_city = 'Phoenix';
 		getStates();
+		getCities(curr_state);
+		getBusinesses(curr_city);
 	});
 </script>
 
@@ -111,29 +113,31 @@
 	</div>
 
 	<!-- RIGHT PANEL: BUSINESS LIST PER SELECTED CITY -->
-	<div class="panel">
+	<div class="panel" style="width:75%">
 		<h3>Business List</h3>
 		<!--<select size="5" id="data-option-panel">-->
-		<table>
-			<tr>
-				<th>Name</th>
-				<th>Address</th>
-				<th>Zipcode</th>
-				<th>Rating</th>
-				<th>Reviews</th>
-				<th>Checkins</th>
-			</tr>
-			{#each businesses as b, index (index)}
+		<div class="scrollable">
+			<table>
 				<tr>
-					<td style="width:8%">{b.name}</td>
-					<td style="width:10%">{b.address}</td>
-					<td>{b.zipcode}</td>
-					<td>{b.stars}</td>
-					<td>{b.num_reviews}</td>
-					<td>{b.num_checkins}</td>
+					<th>Name</th>
+					<th>Address</th>
+					<th>Zipcode</th>
+					<th>Rating</th>
+					<th>Reviews</th>
+					<th>Checkins</th>
 				</tr>
-			{/each}
-		</table>
+				{#each businesses as b, index (index)}
+					<tr>
+						<td style="width:8%">{b.name}</td>
+						<td style="width:10%">{b.address}</td>
+						<td>{b.zipcode}</td>
+						<td>{b.stars}</td>
+						<td>{b.num_reviews}</td>
+						<td>{b.num_checkins}</td>
+					</tr>
+				{/each}
+			</table>
+		</div>
 		<!--</select>-->
 	</div>
 </div>
@@ -189,7 +193,7 @@
 
 	#left-panel {
 		width: unset;
-		width: 40%;
+		width: 25%;
 	}
 
 	select {
@@ -215,5 +219,10 @@
 		border-bottom: solid black 1px;
 		padding: 0 1% 0 1%;
 		font-size: 16px;
+	}
+
+	.scrollable {
+		overflow-y: scroll;
+		height: 72vh;
 	}
 </style>
