@@ -22,10 +22,10 @@
 	async function getStates() {
 		try {
 			/* get states */
-            //res.states = await axios.get(endpoint_req);
-            //states = res.states.data;
-            res.states = await fetch(endpoint_req);
-            states = await res.states.json();
+            res.states = await axios.get(endpoint_req);
+            states = res.states.data;
+            //res.states = await fetch(endpoint_req);
+            //states = await res.states.json();
 			//states = load(fetch, '').then(states => states);
 			console.log(states);
 		} catch (error) {
@@ -40,10 +40,10 @@
 		curr_state = state;
 		try {
 			/* get states */
-			//res.cities = await axios.get(endpoint_req + '?state=' + state);
-			//cities = res.cities.data;
-			res.cities = await fetch(endpoint_req + '?state=' + state);
-			cities = await res.cities.json();
+			res.cities = await axios.get(endpoint_req + '?state=' + state);
+			cities = res.cities.data;
+            //res.cities = await fetch(endpoint_req + '?state=' + state);
+            //cities = await res.cities.json();
 			console.log('curr_state=', curr_state);
 			console.log(cities);
 		} catch (error) {
@@ -58,12 +58,12 @@
 		curr_city = city;
 		try {
 			/* get states */
-			/*res.businesses = await axios.get(
+			res.businesses = await axios.get(
 				endpoint_req + '?state=' + curr_state + '&' + 'city=' + city
 			);
-            businesses = res.businesses.data;*/
-			res.businesses = await fetch(endpoint_req + '?state=' + curr_state + '&' + 'city=' + city);
-			businesses = await res.businesses.json();
+            businesses = res.businesses.data;
+            //res.businesses = await fetch(endpoint_req + '?state=' + curr_state + '&' + 'city=' + city);
+            //businesses = await res.businesses.json();
 			console.log(businesses);
 		} catch (error) {
 			console.log('THERE IS AN ERROR.');
