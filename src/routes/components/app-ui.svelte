@@ -156,7 +156,7 @@
 			<i class="fa fa-share-square-o" />
 			<div id="easter-egg" />
 		</div>
-		<div style="position:unset;display:flex;margin-left:20%;justify-content: space-evenly;">
+		<div style="position:unset;display:flex;margin-left:15%;justify-content: space-evenly;">
 			<div class="in-state-component ribbon-list">
 				<h3>Popular List</h3>
 				<select size="5" id="in-state-component-list" />
@@ -257,7 +257,7 @@
 		height: 200px;
 		background-color: white;
 		position: fixed;
-		bottom: -100px;
+		bottom: -150px;
 		transition: 0.5s ease;
 		box-shadow: -5px 5px 15px black;
 		border-radius: 25px;
@@ -267,6 +267,7 @@
 
 	.ribbon-list {
 		margin: unset;
+        margin-top: 10%;
 		padding: unset;
 		font-size: 16px;
 	}
