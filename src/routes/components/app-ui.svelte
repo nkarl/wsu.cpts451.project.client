@@ -154,6 +154,17 @@
 	<div id="ribbon">
 		<div class="share">
 			<i class="fa fa-share-square-o" />
+			<div id="easter-egg" />
+		</div>
+		<div style="position:unset;display:flex;margin-left:20%;justify-content: space-evenly;">
+			<div class="in-state-component ribbon-list">
+				<h3>Popular List</h3>
+				<select size="5" id="in-state-component-list" />
+			</div>
+			<div class="in-state-component ribbon-list">
+				<h3>Successful List</h3>
+				<select size="5" id="in-state-component-list" />
+			</div>
 		</div>
 	</div>
 </div>
@@ -250,11 +261,34 @@
 		transition: 0.5s ease;
 		box-shadow: -5px 5px 15px black;
 		border-radius: 25px;
+		display: unset;
+		padding: 2%;
+	}
+
+	.ribbon-list {
+		margin: unset;
+		padding: unset;
+		font-size: 16px;
+	}
+
+	#easter-egg {
+		bottom: -250px;
+		height: 125px;
+		width: 128px;
+		/*margin-left: 100px;
+		margin-top: 100px;
+         */
+		border: dotted black 1px;
+		background-image: url('../../assets/hackerman-emote.gif');
+		background-repeat: no-repeat;
+		background-size: 100%;
+		opacity: 0.5;
+		position: absolute;
 	}
 
 	#ribbon:hover {
 		height: 75%;
-		padding: 50px;
+		/*padding: 50px;*/
 	}
 
 	.share {
