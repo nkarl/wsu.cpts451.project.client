@@ -150,6 +150,12 @@
 		</div>
 		<!--</select>-->
 	</div>
+
+	<div id="ribbon">
+		<div class="share">
+			<i class="fa fa-share-square-o" />
+		</div>
+	</div>
 </div>
 
 <!-- Style Sheet -->
@@ -184,7 +190,7 @@
 		font-size: 1rm;
 	}
 
-    .in-state-panel {
+	.in-state-panel {
 		display: unset;
 		display: flex;
 		justify-content: space-evenly;
@@ -233,5 +239,28 @@
 	.scrollable {
 		overflow-y: scroll;
 		height: 72vh;
+	}
+
+	#ribbon {
+		width: 800px;
+		height: 200px;
+		background-color: white;
+		position: fixed;
+		bottom: -100px;
+		transition: 0.5s ease;
+		box-shadow: -5px 5px 15px black;
+		border-radius: 25px;
+	}
+
+	#ribbon:hover {
+		height: 75%;
+		padding: 50px;
+	}
+
+	.share {
+		font-size: 3em;
+		float: top;
+		position: relative;
+		top: 35px;
 	}
 </style>
