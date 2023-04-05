@@ -7,8 +7,8 @@
 	const endpoint_req = 'http://localhost:3000/v1/request';
 	$: states = [{}];
 	$: cities = [{}];
-	$: curr_state = 'AZ';
-	$: curr_city = 'Phoenix';
+	$: curr_state = '';
+	$: curr_city = '';
 	$: businesses = [{}];
 
 	const res = {};
@@ -36,7 +36,7 @@
 		}
 	}
 
-	async function getCities(state = 'AZ') {
+	async function getCities(state = 'PA') {
 		curr_state = state;
 		try {
 			/* get states */
@@ -54,7 +54,7 @@
 		}
 	}
 
-	async function getBusinesses(city = 'Phoenix') {
+	async function getBusinesses(city = 'Pittsburgh') {
 		curr_city = city;
 		try {
 			/* get states */
@@ -92,23 +92,33 @@
 <div class="app-container">
 	<!-- LEFT PANEL: CITY LIST PER SELECTED STATE -->
 	<div class="panel" id="left-panel">
-		<h3>State List DropDown</h3>
 		{#if curr_state}
-			<select id="data-option-list" name="">
-				{#each states as s, index (index)}
-					<option id="s{index + 1}" on:click={() => getCities(s.state)}>{s.state}</option>
-				{/each}
-			</select>
-			<h3>City List</h3>
-			<select size="5" id="data-option-panel">
-				{#await getCities() then}
-					{#each cities as c, index (index)}
-						<option id="s{index + 1}" value={c.city} on:click={() => getBusinesses(c.city)}
-							>{c.city}</option
-						>
+			<div>
+				<h3>State List DropDown</h3>
+				<select id="state-list" name="">
+					{#each states as s, index (index)}
+						<option id="s{index + 1}" on:click={() => getCities(s.state)}>{s.state}</option>
 					{/each}
-				{/await}
-			</select>
+				</select>
+			</div>
+			<div class="in-state-panel">
+				<div class="in-state-component">
+					<h3>City List</h3>
+					<select size="5" id="in-state-component-list">
+						{#await getCities() then}
+							{#each cities as c, index (index)}
+								<option id="s{index + 1}" value={c.city} on:click={() => getBusinesses(c.city)}
+									>{c.city}</option
+								>
+							{/each}
+						{/await}
+					</select>
+				</div>
+				<div class="in-state-component">
+					<h3>Zipcode List</h3>
+					<select size="5" id="in-state-component-list" />
+				</div>
+			</div>
 		{/if}
 	</div>
 
@@ -119,20 +129,20 @@
 		<div class="scrollable">
 			<table>
 				<tr>
-					<th>Name</th>
-					<th>Address</th>
-					<th>Zipcode</th>
-					<th>Rating</th>
-					<th>Reviews</th>
-					<th>Checkins</th>
+					<th class="table-header-row inner-column">Name</th>
+					<th class="table-header-row inner-column">Address</th>
+					<th class="table-header-row inner-column">Zipcode</th>
+					<th class="table-header-row inner-column">Rating</th>
+					<th class="table-header-row inner-column">Reviews</th>
+					<th class="table-header-row">Checkins</th>
 				</tr>
 				{#each businesses as b, index (index)}
 					<tr>
-						<td style="width:8%">{b.name}</td>
-						<td style="width:10%">{b.address}</td>
-						<td>{b.zipcode}</td>
-						<td>{b.stars}</td>
-						<td>{b.num_reviews}</td>
+						<td class="inner-column" style="width:10%">{b.name}</td>
+						<td class="inner-column" style="width:8%">{b.address}</td>
+						<td class="inner-column">{b.zipcode}</td>
+						<td class="inner-column">{b.stars}</td>
+						<td class="inner-column">{b.num_reviews}</td>
 						<td>{b.num_checkins}</td>
 					</tr>
 				{/each}
@@ -159,41 +169,43 @@
 		width: 1000px;
 		min-height: 95%;
 		margin: 5px 5px;
-		padding: 2% 2%;
+		padding: 2% 2% 2% 2%;
 		flex-direction: row wrap;
 		border-radius: 25px;
+		font-size: 15px;
 	}
 
-	.card {
-		width: 400px;
-		height: 200px;
-		border: 5px dotted red;
-		margin: 10px 10px;
-		padding: 10px 10px;
-		border-radius: 25px;
-	}
-
-	#data-option-list {
-		width: 90%;
+	div > #state-list {
+		width: 95%;
 		height: 50px;
-		margin-left: 2%;
-		margin-right: 2%;
-		margin-bottom: 5%;
+		margin-left: 1%;
+		margin-right: 1%;
+		margin-bottom: 4%;
 		font-size: 1rm;
 	}
 
-	#data-option-panel {
-		width: 90%;
-		height: 50%;
-		margin-left: 2%;
-		margin-right: 2%;
-		margin-bottom: 5%;
+    .in-state-panel {
+		display: unset;
+		display: flex;
+		justify-content: space-evenly;
+		flex-direction: unset;
+		flex-direction: row wrap;
+	}
+
+	#in-state-component-list {
+		width: 225px;
+		min-height: 300px;
+		margin-left: unset;
+		margin-bottom: 4%;
 		font-size: 1rm;
 	}
 
 	#left-panel {
 		width: unset;
-		width: 25%;
+		width: 40%;
+		font-size: 15px;
+		padding: unset;
+		padding: 2% 2%;
 	}
 
 	select {
@@ -201,24 +213,21 @@
 		font-size: 1em;
 	}
 
-	#test-data {
-		display: unset;
-		display: inline-block;
-	}
-
-	table {
-	}
-
-	tr {
-	}
-
 	th,
 	td {
 		text-align: left;
-		width: 1%;
+		width: 0.75%;
 		border-bottom: solid black 1px;
 		padding: 0 1% 0 1%;
-		font-size: 16px;
+		font-size: 15px;
+	}
+
+	.table-header-row {
+		border-bottom: solid black 1px;
+	}
+
+	.inner-column {
+		border-right: solid black 1px;
 	}
 
 	.scrollable {
