@@ -279,7 +279,6 @@
 		/*margin-left: 100px;
 		margin-top: 100px;
          */
-		border: dotted black 1px;
 		background-image: url('../../assets/hackerman-emote.gif');
 		background-repeat: no-repeat;
 		background-size: 100%;
