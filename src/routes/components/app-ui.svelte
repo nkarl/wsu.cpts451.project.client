@@ -4,11 +4,13 @@
 	import axios from 'axios';
 	// export let data = [{}, {}];
 
-	const endpoint_req = 'http://localhost:3000/v1/request';
+	const endpoint_req = 'http://localhost:3000/v1/get';
 	$: states = [{}];
 	$: cities = [{}];
 	$: curr_state = '';
 	$: curr_city = '';
+    $: curr_zip = '';
+    $: zipcodes = [{}];
 	$: businesses = [{}];
 
 	const res = {};
@@ -258,7 +260,7 @@
 		height: 200px;
 		background-color: white;
 		position: fixed;
-        left: 100px;
+		left: 100px;
 		bottom: -150px;
 		transition: 0.5s ease;
 		box-shadow: -5px 5px 15px black;
@@ -269,7 +271,7 @@
 
 	.ribbon-list {
 		margin: unset;
-        margin-top: 10%;
+		margin-top: 10%;
 		padding: unset;
 		font-size: 16px;
 	}
@@ -281,7 +283,7 @@
 		/*margin-left: 100px;
 		margin-top: 100px;
          */
-        background-image: url('../../assets/cat-engineer.gif');
+		background-image: url('../../assets/cat-engineer.gif');
 		background-repeat: no-repeat;
 		background-size: 100%;
 		opacity: 0.75;
