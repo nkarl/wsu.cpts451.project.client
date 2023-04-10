@@ -4,13 +4,14 @@
 	import axios from 'axios';
 	// export let data = [{}, {}];
 
-	const endpoint_req = 'http://localhost:3000/v1/get';
+	//const endpoint_req = 'http://localhost:3000/v1/get';
+	const endpoint_req = 'http://localhost:3000/v1/test';
 	$: states = [{}];
 	$: cities = [{}];
 	$: curr_state = '';
 	$: curr_city = '';
-    $: curr_zip = '';
-    $: zipcodes = [{}];
+	$: curr_zip = '';
+	$: zipcodes = [{}];
 	$: businesses = [{}];
 
 	const res = {};
@@ -56,12 +57,37 @@
 		}
 	}
 
-	async function getBusinesses(city = 'Pittsburgh') {
+	async function getZipcodes(city = 'Pittsburgh') {
 		curr_city = city;
 		try {
 			/* get states */
+			res.zipcodes = await axios.get(endpoint_req + '?state=' + curr_state + '&' + 'city=' + city);
+			zipcodes = res.zipcodes.data;
+			//res.businesses = await fetch(endpoint_req + '?state=' + curr_state + '&' + 'city=' + city);
+			//businesses = await res.businesses.json();
+			console.log(zipcodes);
+		} catch (error) {
+			console.log('THERE IS AN ERROR.');
+			console.error(error);
+		} finally {
+			console.log('successful fetched data.');
+		}
+	}
+
+	async function getBusinesses(zipcode = '15201') {
+		curr_zip = zipcode;
+		try {
+			/* get states */
 			res.businesses = await axios.get(
-				endpoint_req + '?state=' + curr_state + '&' + 'city=' + city
+				endpoint_req +
+					'?state=' +
+					curr_state +
+					'&' +
+					'city=' +
+					curr_city +
+					'&' +
+					'zipcode=' +
+					zipcode
 			);
 			businesses = res.businesses.data;
 			//res.businesses = await fetch(endpoint_req + '?state=' + curr_state + '&' + 'city=' + city);
@@ -109,7 +135,7 @@
 					<select size="5" id="in-state-component-list">
 						{#await getCities() then}
 							{#each cities as c, index (index)}
-								<option id="s{index + 1}" value={c.city} on:click={() => getBusinesses(c.city)}
+								<option id="s{index + 1}" value={c.city} on:click={() => getZipcodes(c.city)}
 									>{c.city}</option
 								>
 							{/each}
@@ -118,7 +144,17 @@
 				</div>
 				<div class="in-state-component">
 					<h3>Zipcode List</h3>
-					<select size="5" id="in-state-component-list" />
+					<select size="5" id="in-state-component-list">
+						{#await getZipcodes() then}
+							{#each zipcodes as z, index (index)}
+								<option
+									id="s{index + 1}"
+									value={z.zipcode}
+									on:click={() => getBusinesses(z.zipcode)}>{z.zipcode}</option
+								>
+							{/each}
+						{/await}
+					</select>
 				</div>
 			</div>
 		{/if}
