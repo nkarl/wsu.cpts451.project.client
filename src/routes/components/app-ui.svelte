@@ -8,11 +8,11 @@
   const endpoint_req = 'http://localhost:3000/v1/test';
   $: states = [{}];
   $: cities = [{}];
-  $: curr_state = '';
-  $: curr_city = '';
-  $: curr_zip = '';
   $: zipcodes = [{}];
   $: businesses = [{}];
+  $: state_current = '';
+  $: city_current = '';
+  $: zipcode_current = '';
 
   const res = {};
   // resfresh your_end_point_prop
@@ -37,17 +37,17 @@
     } finally {
       console.log('successful fetched data.');
     }
-  }
+  };
 
   const getCities = async (state = 'PA') => {
-    curr_state = state;
+    state_current = state;
     try {
       /* get states */
       res.cities = await axios.get(`${endpoint_req}?state=${state}`);
       cities = res.cities.data;
       //res.cities = await fetch(endpoint_req + '?state=' + state);
       //cities = await res.cities.json();
-      console.log('curr_state=', curr_state);
+      console.log('state_current=', state_current);
       console.log(cities);
     } catch (error) {
       console.log('THERE IS AN ERROR.');
@@ -55,15 +55,15 @@
     } finally {
       console.log('successful fetched data.');
     }
-  }
+  };
 
   const getZipcodes = async (city = 'Pittsburgh') => {
-    curr_city = city;
+    city_current = city;
     try {
       /* get states */
-      res.zipcodes = await axios.get(`${endpoint_req}?state=${curr_state}&city=${city}`);
+      res.zipcodes = await axios.get(`${endpoint_req}?state=${state_current}&city=${city}`);
       zipcodes = res.zipcodes.data;
-      //res.businesses = await fetch(endpoint_req + '?state=' + curr_state + '&' + 'city=' + city);
+      //res.businesses = await fetch(endpoint_req + '?state=' + state_current + '&' + 'city=' + city);
       //businesses = await res.businesses.json();
       console.log(zipcodes);
     } catch (error) {
@@ -72,17 +72,17 @@
     } finally {
       console.log('successful fetched data.');
     }
-  }
+  };
 
   const getBusinesses = async (zipcode = '15201') => {
-    curr_zip = zipcode;
+    zipcode_current = zipcode;
     try {
       /* get states */
       res.businesses = await axios.get(
-        `${endpoint_req}?state=${curr_state}&city=${curr_city}&zipcode=${zipcode}`
+        `${endpoint_req}?state=${state_current}&city=${city_current}&zipcode=${zipcode}`
       );
       businesses = res.businesses.data;
-      //res.businesses = await fetch(endpoint_req + '?state=' + curr_state + '&' + 'city=' + city);
+      //res.businesses = await fetch(endpoint_req + '?state=' + state_current + '&' + 'city=' + city);
       //businesses = await res.businesses.json();
       console.log(businesses);
     } catch (error) {
@@ -91,7 +91,7 @@
     } finally {
       console.log('successful fetched data.');
     }
-  }
+  };
 
   onMount(async function () {
     /*
@@ -100,9 +100,9 @@
 			const data = await res.json();
 			posts = data;
         */
-    curr_state = 'PA';
-    curr_city = 'Pittsburgh';
-    curr_zip = '15201';
+    state_current = 'PA';
+    city_current = 'Pittsburgh';
+    zipcode_current = '15201';
     getStates();
     getCities();
     getZipcodes();
@@ -114,7 +114,7 @@
 <div class="app-container">
   <!-- LEFT PANEL: CITY LIST PER SELECTED STATE -->
   <div class="panel" id="left-panel">
-    {#if curr_state}
+    {#if state_current}
       <div>
         <h3>State List DropDown</h3>
         <select id="state-list" name="">
@@ -132,7 +132,7 @@
           <select size="5" id="in-state-component-list">
             {#await getCities() then}
               {#each cities as c, index (index)}
-                {#if c.city === curr_city}
+                {#if c.city === city_current}
                   <option
                     id="s{index + 1}"
                     value={c.city}
@@ -155,7 +155,7 @@
           <select size="5" id="in-state-component-list">
             {#await getZipcodes() then}
               {#each zipcodes as z, index (index)}
-                {#if z.zipcode === curr_zip}
+                {#if z.zipcode === zipcode_current}
                   <option
                     id="s{index + 1}"
                     value={z.zipcode}
@@ -193,8 +193,8 @@
         </tr>
         {#each businesses as b, index (index)}
           <tr>
-            <td class="inner-column" style="width:10%">{b.name}</td>
-            <td class="inner-column" style="width:8%">{b.address}</td>
+            <td class="inner-column" style="width:12%">{b.name}</td>
+            <td class="inner-column" style="width:12%">{b.address}</td>
             <!--<td class="inner-column">{b.zipcode}</td>-->
             <td class="inner-column">{b.stars}</td>
             <td class="inner-column">{b.num_reviews}</td>
