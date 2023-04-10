@@ -137,12 +137,10 @@
                     id="s{index + 1}"
                     value={c.city}
                     on:click={() => getZipcodes(c.city)}
-                    selected>{c.city}</option
-                  >
+                    selected>{c.city}</option>
                 {:else}
                   <option id="s{index + 1}" value={c.city} on:click={() => getZipcodes(c.city)}
-                    >{c.city}</option
-                  >
+                    >{c.city}</option>
                 {/if}
               {/each}
             {/await}
@@ -160,14 +158,12 @@
                     id="s{index + 1}"
                     value={z.zipcode}
                     on:click={() => getBusinesses(z.zipcode)}
-                    selected>{z.zipcode}</option
-                  >
+                    selected>{z.zipcode}</option>
                 {:else}
                   <option
                     id="s{index + 1}"
                     value={z.zipcode}
-                    on:click={() => getBusinesses(z.zipcode)}>{z.zipcode}</option
-                  >
+                    on:click={() => getBusinesses(z.zipcode)}>{z.zipcode}</option>
                 {/if}
               {/each}
             {/await}
