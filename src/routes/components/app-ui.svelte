@@ -22,7 +22,7 @@
     return { item };
   }
 
-  async function getStates() {
+  const getStates = async () => {
     try {
       /* get states */
       res.states = await axios.get(endpoint_req);
@@ -39,7 +39,7 @@
     }
   }
 
-  async function getCities(state = 'PA') {
+  const getCities = async (state = 'PA') => {
     curr_state = state;
     try {
       /* get states */
@@ -57,7 +57,7 @@
     }
   }
 
-  async function getZipcodes(city = 'Pittsburgh') {
+  const getZipcodes = async (city = 'Pittsburgh') => {
     curr_city = city;
     try {
       /* get states */
@@ -74,7 +74,7 @@
     }
   }
 
-  async function getBusinesses(zipcode = '15201') {
+  const getBusinesses = async (zipcode = '15201') => {
     curr_zip = zipcode;
     try {
       /* get states */
