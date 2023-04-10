@@ -101,11 +101,12 @@
 			posts = data;
         */
 		curr_state = 'PA';
-		//curr_city = 'Pittsburgh';
+		curr_city = 'Pittsburgh';
+		curr_zip = '15201';
 		getStates();
 		getCities();
 		getZipcodes();
-		//getBusinesses();
+		getBusinesses();
 	});
 </script>
 
