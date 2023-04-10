@@ -43,7 +43,7 @@
 		curr_state = state;
 		try {
 			/* get states */
-			res.cities = await axios.get(endpoint_req + '?state=' + state);
+			res.cities = await axios.get(`${endpoint_req}?state=${state}`);
 			cities = res.cities.data;
 			//res.cities = await fetch(endpoint_req + '?state=' + state);
 			//cities = await res.cities.json();
@@ -61,7 +61,7 @@
 		curr_city = city;
 		try {
 			/* get states */
-			res.zipcodes = await axios.get(endpoint_req + '?state=' + curr_state + '&' + 'city=' + city);
+			res.zipcodes = await axios.get(`${endpoint_req}?state=${curr_state}&city=${city}`);
 			zipcodes = res.zipcodes.data;
 			//res.businesses = await fetch(endpoint_req + '?state=' + curr_state + '&' + 'city=' + city);
 			//businesses = await res.businesses.json();
@@ -78,17 +78,7 @@
 		curr_zip = zipcode;
 		try {
 			/* get states */
-			res.businesses = await axios.get(
-				endpoint_req +
-					'?state=' +
-					curr_state +
-					'&' +
-					'city=' +
-					curr_city +
-					'&' +
-					'zipcode=' +
-					zipcode
-			);
+			res.businesses = await axios.get(`${endpoint_req}?state=${curr_state}&city=${curr_city}&zipcode=${zipcode}`);
 			businesses = res.businesses.data;
 			//res.businesses = await fetch(endpoint_req + '?state=' + curr_state + '&' + 'city=' + city);
 			//businesses = await res.businesses.json();
