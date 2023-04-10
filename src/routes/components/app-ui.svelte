@@ -125,6 +125,7 @@
 				</select>
 			</div>
 			<div class="in-state-panel">
+				<!-- City List -->
 				<div class="in-state-component">
 					<h3>City List</h3>
 					<select size="5" id="in-state-component-list">
@@ -146,6 +147,7 @@
 						{/await}
 					</select>
 				</div>
+				<!-- Zipcode List -->
 				<div class="in-state-component">
 					<h3>Zipcode List</h3>
 					<select size="5" id="in-state-component-list">
