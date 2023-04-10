@@ -78,7 +78,9 @@
 		curr_zip = zipcode;
 		try {
 			/* get states */
-			res.businesses = await axios.get(`${endpoint_req}?state=${curr_state}&city=${curr_city}&zipcode=${zipcode}`);
+			res.businesses = await axios.get(
+				`${endpoint_req}?state=${curr_state}&city=${curr_city}&zipcode=${zipcode}`
+			);
 			businesses = res.businesses.data;
 			//res.businesses = await fetch(endpoint_req + '?state=' + curr_state + '&' + 'city=' + city);
 			//businesses = await res.businesses.json();
@@ -98,11 +100,12 @@
 			const data = await res.json();
 			posts = data;
         */
-		curr_state = 'AZ';
-		curr_city = 'Phoenix';
+		curr_state = 'PA';
+		//curr_city = 'Pittsburgh';
 		getStates();
-		getCities(curr_state);
-		getBusinesses(curr_city);
+		getCities();
+		getZipcodes();
+		//getBusinesses();
 	});
 </script>
 
@@ -114,9 +117,11 @@
 			<div>
 				<h3>State List DropDown</h3>
 				<select id="state-list" name="">
-					{#each states as s, index (index)}
-						<option id="s{index + 1}" on:click={() => getCities(s.state)}>{s.state}</option>
-					{/each}
+					{#await getStates() then}
+						{#each states as s, index (index)}
+							<option id="s{index + 1}" on:click={() => getCities(s.state)}>{s.state}</option>
+						{/each}
+					{/await}
 				</select>
 			</div>
 			<div class="in-state-panel">
@@ -125,9 +130,18 @@
 					<select size="5" id="in-state-component-list">
 						{#await getCities() then}
 							{#each cities as c, index (index)}
-								<option id="s{index + 1}" value={c.city} on:click={() => getZipcodes(c.city)}
-									>{c.city}</option
-								>
+								{#if c.city === curr_city}
+									<option
+										id="s{index + 1}"
+										value={c.city}
+										on:click={() => getZipcodes(c.city)}
+										selected>{c.city}</option
+									>
+								{:else}
+									<option id="s{index + 1}" value={c.city} on:click={() => getZipcodes(c.city)}
+										>{c.city}</option
+									>
+								{/if}
 							{/each}
 						{/await}
 					</select>
@@ -137,11 +151,20 @@
 					<select size="5" id="in-state-component-list">
 						{#await getZipcodes() then}
 							{#each zipcodes as z, index (index)}
-								<option
-									id="s{index + 1}"
-									value={z.zipcode}
-									on:click={() => getBusinesses(z.zipcode)}>{z.zipcode}</option
-								>
+								{#if z.zipcode === curr_zip}
+									<option
+										id="s{index + 1}"
+										value={z.zipcode}
+										on:click={() => getBusinesses(z.zipcode)}
+										selected>{z.zipcode}</option
+									>
+								{:else}
+									<option
+										id="s{index + 1}"
+										value={z.zipcode}
+										on:click={() => getBusinesses(z.zipcode)}>{z.zipcode}</option
+									>
+								{/if}
 							{/each}
 						{/await}
 					</select>
@@ -159,7 +182,7 @@
 				<tr>
 					<th class="table-header-row inner-column">Name</th>
 					<th class="table-header-row inner-column">Address</th>
-					<th class="table-header-row inner-column">Zipcode</th>
+					<!--<th class="table-header-row inner-column">Zipcode</th>-->
 					<th class="table-header-row inner-column">Rating</th>
 					<th class="table-header-row inner-column">Reviews</th>
 					<th class="table-header-row">Checkins</th>
@@ -168,7 +191,7 @@
 					<tr>
 						<td class="inner-column" style="width:10%">{b.name}</td>
 						<td class="inner-column" style="width:8%">{b.address}</td>
-						<td class="inner-column">{b.zipcode}</td>
+						<!--<td class="inner-column">{b.zipcode}</td>-->
 						<td class="inner-column">{b.stars}</td>
 						<td class="inner-column">{b.num_reviews}</td>
 						<td>{b.num_checkins}</td>
