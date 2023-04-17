@@ -305,12 +305,13 @@
 
   #ribbon {
     border: 5px solid gray;
-    width: 800px;
+    width: 200px;
     height: 200px;
     background-color: white;
     position: fixed;
-    left: 100px;
-    bottom: -150px;
+    /*left: 100px;*/
+    /*bottom: -150px;*/
+    right: -230px;
     transition: 0.5s ease;
     box-shadow: -5px 5px 15px black;
     border-radius: 25px;
@@ -326,12 +327,11 @@
   }
 
   #easter-egg {
-    bottom: -250px;
+    right: -350px;
     height: 250px;
     width: 250px;
     /*margin-left: 100px;
-		margin-top: 100px;
-         */
+		margin-top: 100px;*/
     background-image: url('../../assets/cat-engineer.gif');
     background-repeat: no-repeat;
     background-size: 100%;
@@ -341,6 +341,7 @@
 
   #ribbon:hover {
     height: 75%;
+    width: 75%;
     /*padding: 50px;*/
   }
 
