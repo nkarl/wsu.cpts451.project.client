@@ -74,7 +74,7 @@
     }
   };
 
-  const getBusinesses = async (zipcode = '15201') => {
+  const getBusinesses = async (zipcode = '15203') => {
     zipcode_current = zipcode;
     try {
       /* get states */
@@ -93,6 +93,41 @@
     }
   };
 
+  const getPopularBusinesses = async () => {
+    try {
+      /* get states */
+      res.popular = await axios.get(
+        `${endpoint_req}?state=${state_current}&city=${city_current}&zipcode=${zipcode}&popular=true`
+      );
+      businesses = res.popular.data;
+      //res.businesses = await fetch(endpoint_req + '?state=' + state_current + '&' + 'city=' + city);
+      //businesses = await res.businesses.json();
+      console.log(businesses);
+    } catch (error) {
+      console.log('THERE IS AN ERROR.');
+      console.error(error);
+    } finally {
+      console.log('successful fetched data.');
+    }
+  }
+
+  const getSuccessfulBusinesses = async () => {
+    try {
+      /* get states */
+      res.popular = await axios.get(
+        `${endpoint_req}?state=${state_current}&city=${city_current}&zipcode=${zipcode}&successful=true`
+      );
+      businesses = res.popular.data;
+      //res.businesses = await fetch(endpoint_req + '?state=' + state_current + '&' + 'city=' + city);
+      //businesses = await res.businesses.json();
+      console.log(businesses);
+    } catch (error) {
+      console.log('THERE IS AN ERROR.');
+      console.error(error);
+    } finally {
+      console.log('successful fetched data.');
+    }
+  }
   onMount(async function () {
     /*
             // Default fetch API
@@ -100,9 +135,6 @@
 			const data = await res.json();
 			posts = data;
         */
-    state_current = 'PA';
-    city_current = 'Pittsburgh';
-    zipcode_current = '15201';
     getStates();
     getCities();
     getZipcodes();
@@ -117,7 +149,7 @@
     {#if state_current}
       <div>
         <h3>State List DropDown</h3>
-        <select id="state-list" name="">
+        <select id="state-list" name="state-list">
           {#await getStates() then}
             {#each states as s, index (index)}
               <option id="s{index + 1}" on:click={() => getCities(s.state)}>{s.state}</option>
@@ -125,11 +157,12 @@
           {/await}
         </select>
       </div>
-      <div class="in-state-panel">
+
+      <div class="state-panel">
         <!-- City List -->
-        <div class="in-state-component">
+        <div class="state-component">
           <h3>City List</h3>
-          <select size="5" id="in-state-component-list">
+          <select size="5" id="state-component-list city-list" name="city-list">
             {#await getCities() then}
               {#each cities as c, index (index)}
                 {#if c.city === city_current}
@@ -148,9 +181,9 @@
         </div>
 
         <!-- Zipcode List -->
-        <div class="in-state-component">
+        <div class="state-component">
           <h3>Zipcode List</h3>
-          <select size="5" id="in-state-component-list">
+          <select size="5" id="state-component-list zipcode-list" name="zipcode-list">
             {#await getZipcodes() then}
               {#each zipcodes as z, index (index)}
                 {#if z.zipcode === zipcode_current}
@@ -171,13 +204,18 @@
         </div>
       </div>
     {/if}
+
+    <div style="">
+      <h3>Categories</h3>
+      <select size="5" id="state-component-list" />
+    </div>
   </div>
 
   <!-- RIGHT PANEL: BUSINESS LIST PER SELECTED CITY -->
-  <div class="panel" style="width:75%">
+  <div class="panel" style="width:75%" id="right-panel" name="right-panel">
     <h3>Business List</h3>
     <!--<select size="5" id="data-option-panel">-->
-    <div class="scrollable">
+    <div class="scrollable" id="business-list" name="business-list">
       <table>
         <tr>
           <th class="table-header-row inner-column">Name</th>
@@ -205,16 +243,32 @@
   <div id="ribbon">
     <div class="share">
       <i class="fa fa-share-square-o" />
-      <div id="easter-egg" />
+      <!--<div id="easter-egg" />-->
     </div>
     <div style="position:unset;display:flex;margin-left:15%;justify-content: space-evenly;">
-      <div class="in-state-component ribbon-list">
+      <div class="state-component ribbon-list">
         <h3>Popular List</h3>
-        <select size="5" id="in-state-component-list" />
+        <select size="5" id="state-component-list" />
+            {#await getPopularBusinesses() then}
+              {#each businesses as b, index (index)}
+                  <option
+                    id="s{index + 1}"
+                    value={b.name}
+                    selected>{b.name}</option>
+              {/each}
+            {/await}
       </div>
-      <div class="in-state-component ribbon-list">
+      <div class="state-component ribbon-list">
         <h3>Successful List</h3>
-        <select size="5" id="in-state-component-list" />
+        <select size="5" id="state-component-list" />
+            {#await getSuccessfulBusinesses() then}
+              {#each businesses as b, index (index)}
+                  <option
+                    id="s{index + 1}"
+                    value={b.name}
+                    selected>{b.name}</option>
+              {/each}
+            {/await}
       </div>
     </div>
   </div>
@@ -252,7 +306,7 @@
     font-size: 1rm;
   }
 
-  .in-state-panel {
+  .state-panel {
     display: unset;
     display: flex;
     justify-content: space-evenly;
@@ -260,7 +314,7 @@
     flex-direction: row wrap;
   }
 
-  #in-state-component-list {
+  #state-component-list {
     width: 225px;
     min-height: 300px;
     margin-left: unset;
