@@ -10,6 +10,8 @@
   $: cities = [{}];
   $: zipcodes = [{}];
   $: businesses = [{}];
+  $: popular = [{}];
+  $: successful = [{}];
   $: state_current = '';
   $: city_current = '';
   $: zipcode_current = '';
@@ -97,37 +99,37 @@
     try {
       /* get states */
       res.popular = await axios.get(
-        `${endpoint_req}?state=${state_current}&city=${city_current}&zipcode=${zipcode}&popular=true`
+        `${endpoint_req}?state=${state_current}&city=${city_current}&zipcode=${zipcode_current}&popular=true`
       );
-      businesses = res.popular.data;
+      popular = res.popular.data;
       //res.businesses = await fetch(endpoint_req + '?state=' + state_current + '&' + 'city=' + city);
       //businesses = await res.businesses.json();
-      console.log(businesses);
+      console.log(popular);
     } catch (error) {
       console.log('THERE IS AN ERROR.');
       console.error(error);
     } finally {
       console.log('successful fetched data.');
     }
-  }
+  };
 
   const getSuccessfulBusinesses = async () => {
     try {
       /* get states */
-      res.popular = await axios.get(
-        `${endpoint_req}?state=${state_current}&city=${city_current}&zipcode=${zipcode}&successful=true`
+      res.successful = await axios.get(
+        `${endpoint_req}?state=${state_current}&city=${city_current}&zipcode=${zipcode_current}&successful=true`
       );
-      businesses = res.popular.data;
+      successful = res.successful.data;
       //res.businesses = await fetch(endpoint_req + '?state=' + state_current + '&' + 'city=' + city);
       //businesses = await res.businesses.json();
-      console.log(businesses);
+      console.log(successful);
     } catch (error) {
       console.log('THERE IS AN ERROR.');
       console.error(error);
     } finally {
       console.log('successful fetched data.');
     }
-  }
+  };
   onMount(async function () {
     /*
             // Default fetch API
@@ -246,30 +248,31 @@
       <!--<div id="easter-egg" />-->
     </div>
     <div style="position:unset;display:flex;margin-left:15%;justify-content: space-evenly;">
-      <div class="state-component ribbon-list">
-        <h3>Popular List</h3>
-        <select size="5" id="state-component-list" />
-            {#await getPopularBusinesses() then}
-              {#each businesses as b, index (index)}
-                  <option
-                    id="s{index + 1}"
-                    value={b.name}
-                    selected>{b.name}</option>
+      {#await getBusinesses() then}
+        <div class="state-component ribbon-list">
+          <h3>Popular List</h3>
+          {#await getPopularBusinesses() then}
+            <select size="5" id="state-component-list">
+              {#each popular as b, index (index)}
+                <option id="s{index + 1}" value={b.name} selected>{b.name}</option>
               {/each}
-            {/await}
-      </div>
-      <div class="state-component ribbon-list">
-        <h3>Successful List</h3>
-        <select size="5" id="state-component-list" />
-            {#await getSuccessfulBusinesses() then}
-              {#each businesses as b, index (index)}
-                  <option
-                    id="s{index + 1}"
-                    value={b.name}
-                    selected>{b.name}</option>
+            </select>
+          {/await}
+        </div>
+      {/await}
+
+      {#await getBusinesses() then}
+        <div class="state-component ribbon-list">
+          <h3>Successful List</h3>
+          {#await getSuccessfulBusinesses() then}
+            <select size="5" id="state-component-list">
+              {#each successful as b, index (index)}
+                <option id="s{index + 1}" value={b.name} selected>{b.name}</option>
               {/each}
-            {/await}
-      </div>
+            </select>
+          {/await}
+        </div>
+      {/await}
     </div>
   </div>
 </div>
