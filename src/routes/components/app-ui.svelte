@@ -335,10 +335,13 @@
 
   #state-component-list {
     width: 225px;
-    min-height: 300px;
     margin-left: unset;
     margin-bottom: 4%;
     font-size: 1rm;
+  }
+
+  #state-component-list, option {
+    width: 250px;
   }
 
   #left-panel {
@@ -428,4 +431,6 @@
   #refined-business-list {
     width: 40%;
   }
+
+
 </style>
