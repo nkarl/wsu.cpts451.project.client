@@ -258,6 +258,10 @@
       {#await getZipcodes() then}
         <div class="state-component ribbon-list">
           <h3>Popular List</h3>
+          <p>criteria:</p>
+          <ul>
+            <li>reviews = 20</li>
+          </ul>
           {#await getPopularBusinesses() then}
             <select size="5" id="state-component-list">
               {#each popular as b, index (index)}
@@ -271,6 +275,11 @@
       {#await getBusinesses() then}
         <div class="state-component ribbon-list">
           <h3>Successful List</h3>
+          <p>criteria</p>
+          <ul>
+            <li>reviews = 30</li>
+            <li>stars > 3</li>
+          </ul>
           {#await getSuccessfulBusinesses() then}
             <select size="5" id="state-component-list">
               {#each successful as b, index (index)}
