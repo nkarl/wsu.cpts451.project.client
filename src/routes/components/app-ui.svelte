@@ -256,9 +256,9 @@
     </div>
     <div style="position:unset;display:flex;margin-left:15%;justify-content: space-evenly;">
       {#await getZipcodes() then}
-        <div class="state-component ribbon-list">
-          <h3>Popular List</h3>
-          <p>criteria:</p>
+        <div class="state-component ribbon-list" >
+          <h3>Popular List: count={popular.length}</h3>
+          <p>statistics:</p>
           <ul>
             <li>reviews = 20</li>
           </ul>
@@ -273,9 +273,9 @@
       {/await}
 
       {#await getBusinesses() then}
-        <div class="state-component ribbon-list">
-          <h3>Successful List</h3>
-          <p>criteria</p>
+        <div class="state-component ribbon-list" id="refined-business-list">
+          <h3>Successful List: count={successful.length}</h3>
+          <p>statistics:</p>
           <ul>
             <li>reviews = 30</li>
             <li>stars > 3</li>
@@ -378,13 +378,13 @@
 
   #ribbon {
     border: 5px solid gray;
-    width: 200px;
-    height: 200px;
+    width: 1200px;
+    height: 150px;
     background-color: white;
     position: fixed;
-    /*left: 100px;*/
-    /*bottom: -150px;*/
-    right: -230px;
+    left: 100px;
+    bottom: -150px;
+    /*right: -230px;*/
     transition: 0.5s ease;
     box-shadow: -5px 5px 15px black;
     border-radius: 25px;
@@ -423,5 +423,9 @@
     float: top;
     position: relative;
     top: 35px;
+  }
+
+  #refined-business-list {
+    width: 40%;
   }
 </style>
