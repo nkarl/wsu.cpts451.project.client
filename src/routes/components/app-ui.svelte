@@ -130,6 +130,13 @@
       console.log('successful fetched data.');
     }
   };
+
+  const getUpdatedBusinessLists = async (zipcode) => {
+    getBusinesses(zipcode);
+    getPopularBusinesses();
+    getSuccessfulBusinesses();
+  }
+
   onMount(async function () {
     /*
             // Default fetch API
@@ -198,7 +205,7 @@
                   <option
                     id="s{index + 1}"
                     value={z.zipcode}
-                    on:click={() => getBusinesses(z.zipcode)}>{z.zipcode}</option>
+                    on:click={() => getUpdatedBusinessLists(z.zipcode)}>{z.zipcode}</option>
                 {/if}
               {/each}
             {/await}
@@ -248,7 +255,7 @@
       <!--<div id="easter-egg" />-->
     </div>
     <div style="position:unset;display:flex;margin-left:15%;justify-content: space-evenly;">
-      {#await getBusinesses() then}
+      {#await getZipcodes() then}
         <div class="state-component ribbon-list">
           <h3>Popular List</h3>
           {#await getPopularBusinesses() then}
